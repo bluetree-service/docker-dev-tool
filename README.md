@@ -1,6 +1,14 @@
 # Docker dev tools
 Docker image contain lot of tools usable for debugging other containers.
 
+Forget about `apt-get`, `zypper`, `yum` etc. Forget about installing any software on existing containers!  
+Now you can execute you favorite software on containers without installation. Just run this image with connection to
+preferred container and run some of preinstalled software directly, or just run shell and do everything you want.  
+Image based on Ubuntu 20.04 and its have all programs that are included in that version with some other listed bellow.
+
+This container prepared only for developing and debugging containers. So it shouldn't be installed on production
+environment.
+
 ## Usage
 
 `docker run --net container:{container name} --pid container:{container name} -it --rm bluetree/docker-dev-tool {command}`
@@ -11,7 +19,7 @@ Example:
 Usage tools on host OS:  
 `docker run --net host --pid host -it --rm bluetree/docker-dev-tool bashtop`
 
-## List of included programs
+## List of additional included programs
 
 ### Terminal
 
