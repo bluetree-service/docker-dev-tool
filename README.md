@@ -38,6 +38,11 @@ Usage tools on host OS:
 * **fmt** - formatter for simplifying and optimizing text files
 * **fdupes** - find duplicated files
 * **exiftool** - read file metadata
+* **duplicity** - backs directories by producing encrypted tar-format volumes and uploading them to a remote or local file server
+* **rdiff-backup** -local/remote incremental backup
+* **backupninja** - coordinate system backup by dropping a few simple configuration file
+* **fzf** - A Quick Fuzzy File Search from Linux Terminal
+* **ranger** - simple file manager
 
 ### Editors
 
@@ -65,6 +70,9 @@ Usage tools on host OS:
 * **atop** - interactive monitor to view the system load
 * **nmon** - performance system monitor tool
 * **iozone** - filesystem benchmark
+* **strace** - debugging and trouble shooting programs in Linux
+* **hwinfo** - check details about hardware components
+* **whowatch** - Monitor Users and Processes in Real Time
 
 ### Network
 
@@ -93,6 +101,9 @@ Usage tools on host OS:
 * **qemu-nbd** - QEMU disk network block device server
 * **swaks** - allow sending simple email
 * **iptraf** - network monitor
+* **iperf3** - performing real-time network throughput measurements
+* **iptraf-ng** - IP LAN monitoring tool
+* **http** - modern, user-friendly, and cross-platform command line HTTP client
 
 ### Databases
 
@@ -108,3 +119,6 @@ Usage tools on host OS:
 * **multitail** - tail on multiple hosts in same time
 * **lnav** - log navigator, watch logs in real time and format output
 * **qemu-img**-  QEMU disk image utility, allow to convert images
+* **gawk** - pattern scanning and processing language
+* **cloc** - count lines of code in all languages
+* **rclone** - Sync Files Directories from Different Cloud Storage

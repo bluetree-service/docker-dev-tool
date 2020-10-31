@@ -56,7 +56,19 @@ RUN apt-get install -y\
     psmisc\
     atop\
     nmon\
-    iozone3
+    iozone3\
+    strace\
+    gawk\
+    rdiff-backup\
+    duplicity\
+    hwinfo\
+    automake\
+    iperf3\
+    cloc\
+    fzf\
+    ranger\
+    httpie\
+    whowatch
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     smem\
@@ -66,7 +78,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     inxi\
     qemu-utils\
     node-file-sync-cmp\
-    emacs
+    emacs\
+    cryptsetup
 
 ## exa
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
@@ -95,6 +108,19 @@ RUN perl Makefile.PL
 RUN make install
 RUN rm -r /innotop
 WORKDIR /
+
+## backupninja
+RUN git clone https://github.com/lelutin/backupninja.git
+WORKDIR /backupninja
+RUN ./autogen.sh
+RUN ./configure
+RUN make
+RUN make install
+WORKDIR /
+RUN rm -fr backupninja
+
+## rclone
+RUN curl https://rclone.org/install.sh | bash
 
 ## setup bashrc
 COPY ./.bashrc /root/
