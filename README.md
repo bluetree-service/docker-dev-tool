@@ -104,6 +104,7 @@ Usage tools on host OS:
 * **iperf3** - performing real-time network throughput measurements
 * **iptraf-ng** - IP LAN monitoring tool
 * **http** - modern, user-friendly, and cross-platform command line HTTP client
+* **tcpdump** - capture and analyze network traffic
 
 ### Databases
 

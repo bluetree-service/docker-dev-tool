@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.0.0 - 2020-11-03
+### Added
+* tcpdump
+
 ## 1.1.0.0 - 2020-10-31
 ### Added
 * new programs

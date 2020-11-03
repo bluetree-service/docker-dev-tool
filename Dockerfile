@@ -68,7 +68,8 @@ RUN apt-get install -y\
     fzf\
     ranger\
     httpie\
-    whowatch
+    whowatch\
+    tcpdump
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     smem\
