@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 RUN apt-get autoclean
-RUN apt-get update -m --ignore-missing --fix-missing
+RUN apt-get update --fix-missing
 RUN apt-get upgrade -y
 
 RUN apt-get install -y\
@@ -69,7 +69,8 @@ RUN apt-get install -y\
     ranger\
     httpie\
     whowatch\
-    tcpdump
+    tcpdump\
+    python2
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     smem\
@@ -81,6 +82,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     node-file-sync-cmp\
     emacs\
     cryptsetup
+
+## ngxtop
+RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+RUN python2 get-pip.py
+RUN pip2 install ngxtop
+RUN rm get-pip.py
 
 ## exa
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
@@ -133,4 +140,5 @@ RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh
 COPY ./.zshrc /root/
 COPY ./docker_agnoster.zsh-theme /root/.oh-my-zsh/themes/
 
+## aliases setup
 COPY ./aliases.sh /root/
