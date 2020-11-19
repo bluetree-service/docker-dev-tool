@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.2.0.0 - 2020-11-19
+### Added
+* ngxtop
+* python2
+### Changed
+* ubuntu update for some problems with repositories
+
 ## 1.2.0.0 - 2020-11-03
 ### Added
 * tcpdump
