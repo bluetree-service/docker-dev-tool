@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+LABEL maintainer="chajr@bluetree.pl"
+
 RUN apt-get autoclean
 RUN apt-get update --fix-missing
 RUN apt-get upgrade -y
@@ -83,6 +85,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     emacs\
     cryptsetup
 
+## rename batcat to bat
+RUN mv /usr/bin/batcat /usr/bin/bat
+
 ## ngxtop
 RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
 RUN python2 get-pip.py
@@ -142,3 +147,6 @@ COPY ./docker_agnoster.zsh-theme /root/.oh-my-zsh/themes/
 
 ## aliases setup
 COPY ./aliases.sh /root/
+
+## create link for parent container files access
+RUN ln -s /proc/1/root /parent
