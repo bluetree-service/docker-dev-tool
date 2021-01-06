@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.0.0 - 2021-01-06
+### Added
+* link for parent container filesystem `/parent`
+### Changed
+* renamed `batcat` into `bat`
+
 ## 1.3.0.0 - 2020-11-19
 ### Added
 * ngxtop
