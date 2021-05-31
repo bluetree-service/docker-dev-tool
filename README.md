@@ -19,6 +19,13 @@ Example:
 Usage tools on host OS:  
 `docker run --net host --pid host -it --rm bluetree/docker-dev-tool bashtop`
 
+### Access to container file system
+If container that we are connecting is run as `root` user (ID=0) you can get access to it filesystem by `/parent/` directory
+which is alias to `/proc/1/root`.  
+If container is running as different user, you should run _docker-dev-tool_ with the same user:group ID's using `-u` flag  
+(`-u {user id}:{group id}`).  
+`docker run --net container:test --pid container:test -u 33:33 -it --rm bluetree/docker-dev-tool bash`
+
 ## List of additional included programs
 
 ### Terminal
@@ -70,9 +77,10 @@ Usage tools on host OS:
 * **atop** - interactive monitor to view the system load
 * **nmon** - performance system monitor tool
 * **iozone** - filesystem benchmark
-* **strace** - debugging and trouble shooting programs in Linux
+* **strace** - debugging and troubleshooting programs in Linux
 * **hwinfo** - check details about hardware components
 * **whowatch** - Monitor Users and Processes in Real Time
+* **glances** - system monitoring tool
 
 ### Network
 
@@ -105,6 +113,7 @@ Usage tools on host OS:
 * **iptraf-ng** - IP LAN monitoring tool
 * **http** - modern, user-friendly, and cross-platform command line HTTP client
 * **tcpdump** - capture and analyze network traffic
+* **nmcli** - manage network connections
 
 ### Databases
 
@@ -123,3 +132,4 @@ Usage tools on host OS:
 * **gawk** - pattern scanning and processing language
 * **cloc** - count lines of code in all languages
 * **rclone** - Sync Files Directories from Different Cloud Storage
+* **unzip** - Unpack zip archives

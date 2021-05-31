@@ -2,11 +2,11 @@ FROM ubuntu:20.04
 
 LABEL maintainer="chajr@bluetree.pl"
 
-RUN apt-get autoclean
-RUN apt-get update --fix-missing
-RUN apt-get upgrade -y
-
-RUN apt-get install -y\
+RUN apt-get autoclean; \
+    apt-get update --fix-missing; \
+    apt-get upgrade -y; \
+    #install required software
+    DEBIAN_FRONTEND=noninteractive apt-get install -y\
     git\
     make\
     apt-utils\
@@ -72,9 +72,9 @@ RUN apt-get install -y\
     httpie\
     whowatch\
     tcpdump\
-    python2
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
+    python2\
+    glances \
+    unzip \
     smem\
     mtr\
     mc\
@@ -83,70 +83,55 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y\
     qemu-utils\
     node-file-sync-cmp\
     emacs\
-    cryptsetup
-
-## rename batcat to bat
-RUN mv /usr/bin/batcat /usr/bin/bat
-
-## ngxtop
-RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
-RUN python2 get-pip.py
-RUN pip2 install ngxtop
-RUN rm get-pip.py
-
-## exa
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-RUN wget https://github.com/ogham/exa/releases/download/v0.9.0/exa-linux-x86_64-0.9.0.zip
-RUN unzip exa-linux-x86_64-0.9.0.zip
-RUN mv exa-linux-x86_64 /usr/local/bin/exa
-RUN rm exa-linux-x86_64-0.9.0.zip
-
-## bashtop
-RUN git clone https://github.com/aristocratos/bashtop.git
-WORKDIR /bashtop
-RUN make install
-RUN rm -r /bashtop
-WORKDIR /
-
-## install osquery
-RUN wget https://pkg.osquery.io/deb/osquery_4.5.1_1.linux.amd64.deb
-RUN apt-get install /osquery_4.5.1_1.linux.amd64.deb
-RUN rm osquery_4.5.1_1.linux.amd64.deb
-
-##install innotop
-RUN apt-get install -y mysql-client libterm-readkey-perl libclass-dbi-perl libclass-dbi-mysql-perl
-RUN git clone https://github.com/innotop/innotop.git
-WORKDIR /innotop
-RUN perl Makefile.PL 
-RUN make install
-RUN rm -r /innotop
-WORKDIR /
-
-## backupninja
-RUN git clone https://github.com/lelutin/backupninja.git
-WORKDIR /backupninja
-RUN ./autogen.sh
-RUN ./configure
-RUN make
-RUN make install
-WORKDIR /
-RUN rm -fr backupninja
-
-## rclone
-RUN curl https://rclone.org/install.sh | bash
+    cryptsetup; \
+    ## rename batcat to bat
+    mv /usr/bin/batcat /usr/bin/bat; \
+    ## ngxtop
+    curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py; \
+    python2 get-pip.py; \
+    pip2 install ngxtop; \
+    rm get-pip.py; \
+    ## exa
+    curl https://sh.rustup.rs -sSf | bash -s -- -y; \
+    wget https://github.com/ogham/exa/releases/download/v0.9.0/exa-linux-x86_64-0.9.0.zip; \
+    unzip exa-linux-x86_64-0.9.0.zip; \
+    mv exa-linux-x86_64 /usr/local/bin/exa; \
+    rm exa-linux-x86_64-0.9.0.zip; \
+    rm -fr root/.rustup/toolchains/stable-x86_64-unknown-linux-gnu; \
+    ## bashtop
+    git clone https://github.com/aristocratos/bashtop.git; \
+    $(cd /bashtop && make install); \
+    rm -r /bashtop; \
+    ## install osquery
+    wget https://pkg.osquery.io/deb/osquery_4.5.1_1.linux.amd64.deb; \
+    apt-get install /osquery_4.5.1_1.linux.amd64.deb; \
+    rm osquery_4.5.1_1.linux.amd64.deb; \
+    ##install innotop
+    apt-get install -y mysql-client libterm-readkey-perl libclass-dbi-perl libclass-dbi-mysql-perl; \
+    git clone https://github.com/innotop/innotop.git; \
+    $(cd innotop && perl Makefile.PL && make install); \
+    rm -r /innotop; \
+    ## backupninja
+    git clone https://github.com/lelutin/backupninja.git; \
+    $(cd backupninja && ./autogen.sh && ./configure && make && make install); \
+    rm -fr backupninja; \
+    ## rclone
+    curl https://rclone.org/install.sh | bash; \
+    #oh-my-zsh
+    yes -n | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
+    git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting; \
+    ## create link for parent container files access
+    apt-get clear cache; \
+    rm -fr /tmp/*; \
+    ln -s /proc/1/root /parent
 
 ## setup bashrc
 COPY ./.bashrc /root/
 
 ## setup oh-my-zsh
-RUN yes -n | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 COPY ./.zshrc /root/
 COPY ./docker_agnoster.zsh-theme /root/.oh-my-zsh/themes/
 
 ## aliases setup
 COPY ./aliases.sh /root/
-
-## create link for parent container files access
-RUN ln -s /proc/1/root /parent

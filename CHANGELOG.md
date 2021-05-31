@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.5.0.0 - 2021-05-31
+### Added
+* new software (glances, nmcli, unzip)
+### Changed
+* Reduced image size
+* Rebuild Dockerfile
+* README update
+
 ## 1.4.0.0 - 2021-01-06
 ### Added
 * link for parent container filesystem `/parent`
