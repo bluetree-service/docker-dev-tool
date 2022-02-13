@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.6.0.0 - 2022-02-13
+### Added
+* zsh & bash for www-data user
+### Changed
+* Layer changes in Dockerfile
+
 ## 1.5.0.0 - 2021-05-31
 ### Added
 * new software (glances, nmcli, unzip)

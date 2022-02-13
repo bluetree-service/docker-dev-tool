@@ -83,7 +83,10 @@ RUN apt-get autoclean; \
     qemu-utils\
     node-file-sync-cmp\
     emacs\
-    cryptsetup; \
+    cryptsetup;
+
+## additional soft
+RUN \
     ## rename batcat to bat
     mv /usr/bin/batcat /usr/bin/bat; \
     ## ngxtop
@@ -117,21 +120,39 @@ RUN apt-get autoclean; \
     rm -fr backupninja; \
     ## rclone
     curl https://rclone.org/install.sh | bash; \
-    #oh-my-zsh
-    yes -n | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
-    git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting; \
-    ## create link for parent container files access
     apt-get clear cache; \
     rm -fr /tmp/*; \
+    ## create link for parent container files access
     ln -s /proc/1/root /parent
+
+RUN \
+    #oh-my-zsh
+    yes -n | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
+    mv /root/.oh-my-zsh /opt/oh-my-zsh; \
+    git clone https://github.com/zsh-users/zsh-autosuggestions /opt/oh-my-zsh/custom/plugins/zsh-autosuggestions; \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /opt/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+## create user www-data
+RUN echo 'www-data ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+  && usermod -d /home/www-data www-data \
+  && usermod --shell /bin/bash www-data \
+  && mkdir /home/www-data
 
 ## setup bashrc
 COPY ./.bashrc /root/
 
 ## setup oh-my-zsh
 COPY ./.zshrc /root/
-COPY ./docker_agnoster.zsh-theme /root/.oh-my-zsh/themes/
+COPY ./docker_agnoster.zsh-theme /opt/oh-my-zsh/themes/
 
 ## aliases setup
-COPY ./aliases.sh /root/
+COPY ./aliases.sh /opt/
+
+## set bash & zsh for all users
+RUN cp /root/.bashrc /home/www-data/.bashrc \
+ && cp /root/.zshrc /home/www-data/.zshrc \
+ && ln -s /opt/oh-my-zsh /home/www-data/.oh-my-zsh \
+ && ln -s /opt/oh-my-zsh /root/.oh-my-zsh \
+ && ln -s /opt/aliases.sh /home/www-data/aliases.sh \
+ && ln -s /opt/aliases.sh /root/aliases.sh \
+ && chown -R www-data:www-data /home/www-data
