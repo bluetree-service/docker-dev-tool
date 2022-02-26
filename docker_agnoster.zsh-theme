@@ -35,7 +35,7 @@ prompt_end() {
 }
 
 prompt_context() {
-    prompt_segment black default "%(!.%{%F{yellow}%}.)docker-tools%(!.%{%F{white}%}.)@%(!.%{%F{green}%}.)%m"
+    prompt_segment black default "%{%F{white}%}docker-tools:%{%F{yellow}%}%n%{%F{white}%}@%{%F{green}%}%m"
 }
 
 prompt_git() {
@@ -157,6 +157,7 @@ prompt_status() {
   local -a symbols
 
   [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
+  [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"

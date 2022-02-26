@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.6.1.0 - 2022-02-16
+### Added
+* User name in zhe & bash prompt
+
 ## 1.6.0.0 - 2022-02-13
 ### Added
 * zsh & bash for www-data user

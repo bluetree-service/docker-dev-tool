@@ -26,6 +26,9 @@ If container is running as different user, you should run _docker-dev-tool_ with
 (`-u {user id}:{group id}`).  
 `docker run --net container:test --pid container:test -u 33:33 -it --rm bluetree/docker-dev-tool bash`
 
+### Additional users
+User `www-data` (default id 33) is also added as default user, with access to zsh, bash and aliases.
+
 ## List of additional included programs
 
 ### Terminal

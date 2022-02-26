@@ -24,7 +24,7 @@ git_prompt ()
     echo " [$git_branch${c_reset}]"
 }
 
-PROMPT_COMMAND='PS1="${c_user}docker-tools${c_reset}@${c_host}\h${c_reset}:${c_path}\w${c_reset}$(git_prompt)\$ "'
+PROMPT_COMMAND='PS1="docker-tools:${c_user}\u${c_reset}@${c_host}\h${c_reset}:${c_path}\w${c_reset}$(git_prompt)\$ "'
 
 git-root() {
 	cd "$(git proot)"
